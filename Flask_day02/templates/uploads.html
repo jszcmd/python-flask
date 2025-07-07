@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .message{
+            color:red;
+            list-style: none;
+        }
+        img{
+            width:100px;
+            height:100px;
+            border-radius:50%;
+        }
+    </style>
+</head>
+<body>
+<!-- with 是用来设置局部变量的 -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<ul>
+    {% for category,message in messages %}
+
+    {% if message['status'] %}
+
+    <img src="/static/{{message['url']}}" alt="">
+
+    {% else %}
+
+    <li class="{{ category }}">{{ message }}</li>
+
+    {% endif %}
+
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+
+<!--对用户上传完成头像之后,做一个"回显":用户上传完以后,我们立马让用户看到传递的头像长什么样子-->
+<h1>上传头像</h1>
+<!--提交到upload的路由上面去,提交到启动的python文件中@app.route('/upload')里面去-->
+<form action="/upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <input type="submit" value="上传">
+</form>
+</body>
+</html>
